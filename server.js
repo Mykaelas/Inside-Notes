@@ -48,6 +48,16 @@ app.get('/api/notes', (req, res) => {
     res.json(results);
 });
 
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'));
+});
+
+// This acts a a wildcard and will bring the users back to the homepage
+// if nothing is found that matches their request
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'));
+});
+
 app.post('/api/notes', (req, res) => {
     if (!validateNotes(req.body)) {
         res.status(400).send('This note is not properly formatted.');
@@ -61,6 +71,8 @@ app.post('/api/notes', (req, res) => {
 app.use(express.urlencoded({ extended: true}));
 // parse incoming JSON data
 app.use(express.json());
+
+app.use(express.static('public'));
 
 app.listen(3001, () => {
     console.log(`API server now on port ${PORT}!`);
