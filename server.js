@@ -1,5 +1,6 @@
 const express = require('express');
 const { notes } = require('./db/db.json');
+const PORT = process.env.PORT || 3001;
 const app = express();
 
 // This part is used to get the user input and put it in the correct spot for notes
@@ -29,7 +30,7 @@ app.get('/api/notes', (req, res) => {
 // const PORT = process.env.PORT || 3000;
 
 app.listen(3001, () => {
-    console.log(`API server now on port 3001`);
+    console.log(`API server now on port ${PORT}!`);
 });
 
 // const apiRoutes = require('./routes/apiRoutes');
