@@ -74,7 +74,7 @@ app.post('/api/notes', (req, res) => {
     }
 });
 
-app.delete(`/api/notes/${id}`, (req, res) => {
+app.delete(`/api/notes:id`, (req, res) => {
    deleteNote(id, notes);
 });
 
