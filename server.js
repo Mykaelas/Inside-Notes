@@ -6,16 +6,13 @@ const fs = require('fs');
 const path = require('path');
 
 // // This part is used to get the user input and put it in the correct spot for notes
-// function noteParts(query, notesArray) {
-//     let filteredResults = notesArray;
-//     if (query.title) {
-//         filteredResults = filteredResults.filter(notes => notes.title === query.title);
-//     }
-//     if (query.body) {
-//         filteredResults = filteredResults.filter(notes => notes.body === query.body);
-//     }
-//     return filteredResults;
-// }
+function noteParts(query, notesArray) {
+    let filteredResults = notesArray;
+    if (query.title) {
+        filteredResults = filteredResults.filter(notes => notes.title === query.title);
+    }
+    return filteredResults;
+}
 
 // This will create a new note when the user starts typing in something. 
 function createNewNote(body, notesArray) {
@@ -42,9 +39,8 @@ function validateNotes(query) {
 app.get('/api/notes', (req, res) => {
     let results = notes;
     if(req.query) {
-        // results = noteParts(req.query, results);
+        results = noteParts(req.query, results);
     }
-    
     res.json(results);
 });
 
@@ -72,11 +68,9 @@ app.use(express.urlencoded({ extended: true}));
 // parse incoming JSON data
 app.use(express.json());
 
-app.use(express.static('public'));
+// app.use(express.static('public'));
 
-app.listen(3001, () => {
+app.listen(PORT, () => {
     console.log(`API server now on port ${PORT}!`);
 });
 
-// const apiRoutes = require('./routes/apiRoutes');
-// const htmlRoutes = require('./routes/htmlRoutes');
