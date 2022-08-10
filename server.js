@@ -5,24 +5,24 @@ const app = express();
 const fs = require('fs');
 const path = require('path');
 
-// This part is used to get the user input and put it in the correct spot for notes
-function noteParts(query, notesArray) {
-    let filteredResults = notesArray;
-    if (query.title) {
-        filteredResults = filteredResults.filter(notes => notes.title === query.title);
-    }
-    if (query.body) {
-        filteredResults = filteredResults.filter(notes => notes.body === query.body);
-    }
-    return filteredResults;
-}
+// // This part is used to get the user input and put it in the correct spot for notes
+// function noteParts(query, notesArray) {
+//     let filteredResults = notesArray;
+//     if (query.title) {
+//         filteredResults = filteredResults.filter(notes => notes.title === query.title);
+//     }
+//     if (query.body) {
+//         filteredResults = filteredResults.filter(notes => notes.body === query.body);
+//     }
+//     return filteredResults;
+// }
 
 // This will create a new note when the user starts typing in something. 
 function createNewNote(body, notesArray) {
     const note = body;
     notesArray.push(note);
     fs.writeFileSync(
-        path.join(__dirname, './public/notes.html'),
+        path.join(__dirname, './db/db.json'),
         JSON.stringify({notes: notesArray}, null, 2)
     );
     return body;
@@ -42,7 +42,7 @@ function validateNotes(query) {
 app.get('/api/notes', (req, res) => {
     let results = notes;
     if(req.query) {
-        results = noteParts(req.query, results);
+        // results = noteParts(req.query, results);
     }
     
     res.json(results);
