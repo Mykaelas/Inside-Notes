@@ -5,6 +5,7 @@ const app = express();
 const fs = require('fs');
 const path = require('path');
 
+
 // // This part is used to get the user input and put it in the correct spot for notes
 function noteParts(query, notesArray) {
     let filteredResults = notesArray;
@@ -23,6 +24,10 @@ function createNewNote(body, notesArray) {
         JSON.stringify({notes: notesArray}, null, 2)
     );
     return body;
+}
+
+function deleteNote(index, notesArray) {
+    notesArray.splice(index, 1);
 }
 
 function validateNotes(query) {
@@ -44,6 +49,7 @@ app.get('/api/notes', (req, res) => {
     res.json(results);
 });
 
+// This will redirect the user to the home page.
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, './public/index.html'));
 });
@@ -52,6 +58,11 @@ app.get('/', (req, res) => {
 // if nothing is found that matches their request
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, './public/index.html'));
+});
+
+// This will redirect the user to the notes page.
+app.get('/notes', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/notes.html'));
 });
 
 app.post('/api/notes', (req, res) => {
@@ -63,12 +74,15 @@ app.post('/api/notes', (req, res) => {
     }
 });
 
+app.delete(`/api/notes/${id}`, (req, res) => {
+   deleteNote(id, notes);
+});
+
 //parse icnoming string or array data
 app.use(express.urlencoded({ extended: true}));
 // parse incoming JSON data
 app.use(express.json());
 
-// app.use(express.static('public'));
 
 app.listen(PORT, () => {
     console.log(`API server now on port ${PORT}!`);
